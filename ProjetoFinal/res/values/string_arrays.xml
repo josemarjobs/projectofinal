@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="bluetoothArray">
+        <item>Dispositivo Bluetooth 1</item>
+        <item>Dispositivo Bluetooth 2</item>
+        <item>Dispositivo Bluetooth 3</item>
+        <item>Dispositivo Bluetooth 4</item>
+        <item>Dispositivo Bluetooth 5</item>        
+    </string-array>
+    <string-array name="comodosArray">
+        <item>Quarto 1</item>
+        <item>Quarto 2</item>
+        <item>Sala de Estar</item>
+        <item>Sala de Jantar</item>
+        <item>Cozinha</item>
+        <item>Quintal</item>
+    </string-array>
+    <string-array name="objetosArray">
+        <item>Lampada</item>
+        <item>Ventilador</item>
+        <item>TV</item>
+        <item>Micro ondas</item>
+        <item>PC</item>
+    </string-array>
+
+</resources>

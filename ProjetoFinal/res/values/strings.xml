@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ProjetoFinal</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="selecione_o_dispositivo">Selecione o dispositivo</string>
+    <string name="comodos_da_casa">Comodos da Casa</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="title_activity_comodo">Comodo</string>
+    <string name="comodo">Comodo</string>
+
+</resources>
