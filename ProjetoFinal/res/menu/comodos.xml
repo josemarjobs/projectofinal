@@ -7,11 +7,5 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/adicionar"/>
-    <item
-        android:id="@+id/action_disconnect"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:title="Disconectar"/>
 
 </menu>

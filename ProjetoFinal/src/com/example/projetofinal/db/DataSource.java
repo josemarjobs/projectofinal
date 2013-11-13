@@ -47,7 +47,7 @@ public class DataSource {
 
 	public Objeto createObjeto(Objeto objeto) {
 		ContentValues values = new ContentValues();
-		
+
 		values.put(DBOpenHelper.COLUMN_OBJETOS_CODIGO, objeto.getCodigo());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_NOME, objeto.getNome());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_ESTADO, objeto.getEstado());
@@ -58,6 +58,12 @@ public class DataSource {
 				values);
 		objeto.setId(inserted);
 		return objeto;
+	}
+
+	public boolean deleteObjeto(Objeto objeto) {
+		String where = DBOpenHelper.COLUMN_OBJETOS_ID + "=" + objeto.getId();
+		int result = database.delete(DBOpenHelper.TABLE_OBJETOS, where, null);
+		return (result == 1);
 	}
 
 	public Comodo createComodo(Comodo comodo) {

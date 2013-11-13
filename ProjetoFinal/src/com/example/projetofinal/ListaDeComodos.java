@@ -2,6 +2,7 @@ package com.example.projetofinal;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +28,7 @@ import android.widget.Toast;
 import com.example.projetofinal.db.DataSource;
 import com.example.projetofinal.model.Comodo;
 
-public class ListaDeComodos extends BaseActivity {
+public class ListaDeComodos extends Activity {
 	private final String LOGTAG = "PROJETOFINAL";
 
 	private LayoutInflater inflater;
@@ -49,7 +50,9 @@ public class ListaDeComodos extends BaseActivity {
 		listaDeComodos = (ListView) findViewById(R.id.listViewComodos);
 
 		setUpComodosList();
+		
 		registerForContextMenu(listaDeComodos);
+		
 		listaDeComodos.setOnItemClickListener(new ItemClickHandler());
 		listaDeComodos.setOnItemLongClickListener(new ItemLongClick());
 	}
@@ -76,9 +79,6 @@ public class ListaDeComodos extends BaseActivity {
 		if (item.getItemId() == R.id.action_add) {
 			Intent intent = new Intent(this, NewComodoActivity.class);
 			startActivity(intent);
-		}
-		if (item.getItemId() == R.id.action_disconnect) {
-			disconnectDevice();
 		}
 		return true;
 	}

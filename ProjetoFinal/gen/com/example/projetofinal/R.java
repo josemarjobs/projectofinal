@@ -29,12 +29,13 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_add=0x7f090017;
+        public static final int action_add=0x7f090019;
         public static final int action_delete=0x7f09001a;
-        public static final int action_disconnect=0x7f090018;
-        public static final int action_edit=0x7f090019;
-        public static final int action_search_devices=0x7f09001c;
-        public static final int action_settings=0x7f09001b;
+        public static final int action_edit=0x7f09001b;
+        public static final int action_search_devices=0x7f09001d;
+        public static final int action_settings=0x7f09001c;
+        public static final int btnOff=0x7f090018;
+        public static final int btnOn=0x7f090017;
         public static final int btnSwitch=0x7f09000b;
         public static final int buttonCancelarNewComodo=0x7f090010;
         public static final int buttonCancelarNewObjeto=0x7f090015;
@@ -68,12 +69,14 @@ public final class R {
         public static final int list_row_objeto=0x7f030005;
         public static final int new_comodo=0x7f030006;
         public static final int new_objeto=0x7f030007;
+        public static final int teste=0x7f030008;
     }
     public static final class menu {
         public static final int comodo=0x7f080000;
-        public static final int comodos=0x7f080001;
-        public static final int comodos_context_menu=0x7f080002;
-        public static final int main=0x7f080003;
+        public static final int comodo_context_menu=0x7f080001;
+        public static final int comodos=0x7f080002;
+        public static final int comodos_context_menu=0x7f080003;
+        public static final int main=0x7f080004;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
