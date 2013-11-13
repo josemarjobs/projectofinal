@@ -1,6 +1,7 @@
 package com.example.projetofinal;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -11,6 +12,9 @@ import android.os.ParcelUuid;
 
 public class BaseActivity extends Activity {
 
+//	Address of the remote device
+	static final String REMOTE_MAC_ADDRESS = "00:13:01:10:01:39";
+	
 	static final int REQUEST_ENABLE_BT = 1;
 	static final UUID UU_ID = new UUID(1, 4);
 
@@ -27,14 +31,44 @@ public class BaseActivity extends Activity {
 		}
 	}
 
+	boolean sendData(String data) {
+		System.out.println("Has opened socket?: " + hasOpenedSocket());
+		if (!hasOpenedSocket()) {
+			return false;
+		} else {
+			System.out.println("Enviando(bytes): " + data.getBytes());
+			OutputStream out = null;
+			try {
+				out = openSocket.getOutputStream();
+				write(out, data.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return true;
+		}
+	}
+
+	public void write(OutputStream mmOutStream, byte[] bytes) {
+		try {
+			mmOutStream.write(bytes);
+		} catch (IOException e) {
+		}
+	}
+
 	boolean hasOpenedSocket() {
 		return openSocket.isConnected();
 	}
+
 	public void connect() {
 		ConnectThread thread = new ConnectThread(selectedDevice);
 		thread.run();
 	}
-
 
 	/**
 	 * connection helper
@@ -94,82 +128,83 @@ public class BaseActivity extends Activity {
 			}
 		}
 	}
-//
-//	class ConnectTask extends AsyncTask<BluetoothDevice, Void, BluetoothSocket> {
-//
-//		private Context context;
-//		private AlertDialog dialog;
-//
-//		public ConnectTask(Context context) {
-//			this.context = context;
-//		}
-//
-//		@Override
-//		protected void onPreExecute() {
-//
-//			AlertDialog.Builder builder = new Builder(context);
-//			builder.setTitle("Connectar");
-//			builder.setMessage("Conectando ao dispositivo");
-//			builder.setCancelable(false);
-//			builder.setNeutralButton("Cancelar", new OnClickListener() {
-//
-//				@Override
-//				public void onClick(DialogInterface dialog, int which) {
-//					ConnectTask.this.cancel(true);
-//					dialog.dismiss();
-//				}
-//			});
-//			this.dialog = builder.create();
-//			this.dialog.show();
-//		}
-//
-//		@Override
-//		protected BluetoothSocket doInBackground(BluetoothDevice... params) {
-//			BluetoothSocket tmp = null;
-//
-//			BluetoothDevice device = params[0];
-//			BluetoothDevice mmDevice = device;
-//
-//			// Get a BluetoothSocket to connect with the given BluetoothDevice
-//			try {
-//				// MY_UUID is the app's UUID string, also used by the server
-//				// code
-//				mmDevice.fetchUuidsWithSdp();
-//				ParcelUuid[] uuids = mmDevice.getUuids();
-//				System.out.println(Arrays.toString(uuids));
-//
-//				tmp = device.createRfcommSocketToServiceRecord(uuids[0]
-//						.getUuid());
-//			} catch (IOException e) {
-//			}
-//			BluetoothSocket mmSocket = tmp;
-//
-//			try {
-//				// Connect the device through the socket. This will block
-//				// until it succeeds or throws an exception
-//				mmSocket.connect();
-//			} catch (IOException connectException) {
-//				// Unable to connect; close the socket and get out
-//				try {
-//					mmSocket.close();
-//				} catch (IOException closeException) {
-//				}
-//				return null;
-//			}
-//
-//			return mmSocket;
-//		}
-//
-//		@Override
-//		protected void onPostExecute(BluetoothSocket result) {
-//			openSocket = result;
-//			this.dialog.dismiss();
-//			if (chamaListaDeComodos) {
-//				Intent intent = new Intent(BaseActivity.this,
-//						ListaDeComodos.class);
-//				startActivity(intent);
-//			}
-//
-//		}
-//	}
+	//
+	// class ConnectTask extends AsyncTask<BluetoothDevice, Void,
+	// BluetoothSocket> {
+	//
+	// private Context context;
+	// private AlertDialog dialog;
+	//
+	// public ConnectTask(Context context) {
+	// this.context = context;
+	// }
+	//
+	// @Override
+	// protected void onPreExecute() {
+	//
+	// AlertDialog.Builder builder = new Builder(context);
+	// builder.setTitle("Connectar");
+	// builder.setMessage("Conectando ao dispositivo");
+	// builder.setCancelable(false);
+	// builder.setNeutralButton("Cancelar", new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(DialogInterface dialog, int which) {
+	// ConnectTask.this.cancel(true);
+	// dialog.dismiss();
+	// }
+	// });
+	// this.dialog = builder.create();
+	// this.dialog.show();
+	// }
+	//
+	// @Override
+	// protected BluetoothSocket doInBackground(BluetoothDevice... params) {
+	// BluetoothSocket tmp = null;
+	//
+	// BluetoothDevice device = params[0];
+	// BluetoothDevice mmDevice = device;
+	//
+	// // Get a BluetoothSocket to connect with the given BluetoothDevice
+	// try {
+	// // MY_UUID is the app's UUID string, also used by the server
+	// // code
+	// mmDevice.fetchUuidsWithSdp();
+	// ParcelUuid[] uuids = mmDevice.getUuids();
+	// System.out.println(Arrays.toString(uuids));
+	//
+	// tmp = device.createRfcommSocketToServiceRecord(uuids[0]
+	// .getUuid());
+	// } catch (IOException e) {
+	// }
+	// BluetoothSocket mmSocket = tmp;
+	//
+	// try {
+	// // Connect the device through the socket. This will block
+	// // until it succeeds or throws an exception
+	// mmSocket.connect();
+	// } catch (IOException connectException) {
+	// // Unable to connect; close the socket and get out
+	// try {
+	// mmSocket.close();
+	// } catch (IOException closeException) {
+	// }
+	// return null;
+	// }
+	//
+	// return mmSocket;
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(BluetoothSocket result) {
+	// openSocket = result;
+	// this.dialog.dismiss();
+	// if (chamaListaDeComodos) {
+	// Intent intent = new Intent(BaseActivity.this,
+	// ListaDeComodos.class);
+	// startActivity(intent);
+	// }
+	//
+	// }
+	// }
 }

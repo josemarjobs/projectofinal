@@ -73,6 +73,8 @@ public class MainActivity extends BaseActivity {
 		return devices;
 	}
 
+	BroadcastReceiver receiver = null;
+
 	public void setUp() {
 		bluetoothAdapter.startDiscovery();
 
@@ -81,7 +83,7 @@ public class MainActivity extends BaseActivity {
 		devicesArrayAdapter = new BluetoothDevicesArrayAdapter(this, devices);
 		bluetoothList.setAdapter(devicesArrayAdapter);
 
-		BroadcastReceiver receiver = new BroadcastReceiver() {
+		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String action = intent.getAction();
@@ -131,7 +133,7 @@ public class MainActivity extends BaseActivity {
 		if (item.getItemId() == R.id.action_search_devices) {
 			checkEnabled();
 		}
-		
+
 		return true;
 	}
 
@@ -149,6 +151,9 @@ public class MainActivity extends BaseActivity {
 			 * procurar
 			 */
 			bluetoothAdapter.cancelDiscovery();
+			if (receiver != null && receiver.isOrderedBroadcast()) {
+				unregisterReceiver(receiver);
+			}
 
 			selectedDevice = devices.get(position);
 
@@ -158,14 +163,17 @@ public class MainActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(),
 					"Conectando ao dispotisitivo: " + selectedDevice.getName(),
 					Toast.LENGTH_SHORT).show();
-			
-			connect();
-			Toast.makeText(getApplicationContext(), "Conectado com sucesso", Toast.LENGTH_SHORT).show();
-			
 
-			 Intent i = new Intent(getApplicationContext(),
-			 ListaDeComodos.class);
-			 startActivity(i);
+			connect();
+			if (!hasOpenedSocket()) {
+				System.out.println("Falhou a conexao. Tentando novamente");
+				connect();
+			}
+			Toast.makeText(getApplicationContext(), "Conectado com sucesso",
+					Toast.LENGTH_SHORT).show();
+
+			Intent i = new Intent(getApplicationContext(), ListaDeComodos.class);
+			startActivity(i);
 
 			// ConnectThread connectThread = new ConnectThread(selectedDevice);
 			// connectThread.run();

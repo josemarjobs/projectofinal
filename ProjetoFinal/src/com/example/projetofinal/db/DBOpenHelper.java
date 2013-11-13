@@ -10,7 +10,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	private static final String LOGTAG = "PROJETOFINAL";
 
 	private static final String DATABASE_NAME = "projetofinal.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 3;
 
 	public static final String TABLE_COMODOS = "comodos";
 	public static final String COLUMN_COMODOS_ID = "comodoId";
@@ -19,6 +19,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_OBJETOS = "objetos";
 	public static final String COLUMN_OBJETOS_ID = "objetoId";
+	public static final String COLUMN_OBJETOS_CODIGO = "codigoObjeto";
 	public static final String COLUMN_OBJETOS_NOME = "nome";
 	public static final String COLUMN_OBJETOS_ESTADO = "estado";
 	public static final String COLUMN_OBJETOS_COMODO_ID = "comodoID";
@@ -30,7 +31,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String TABLE_OBJETOS_CREATE = "CREATE TABLE "
 			+ TABLE_OBJETOS + " (" + COLUMN_OBJETOS_ID
-			+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_OBJETOS_NOME
+			+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_OBJETOS_CODIGO
+			+ " STRING, " + COLUMN_OBJETOS_NOME
 			+ " STRING, " + COLUMN_OBJETOS_ESTADO + " STRING, "
 			+ COLUMN_OBJETOS_COMODO_ID + " INTEGER )";
 
@@ -43,7 +45,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		db.execSQL(TABLE_COMODOS_CREATE);
 		db.execSQL(TABLE_OBJETOS_CREATE);
 
-		Log.i(LOGTAG, "Table has been created");
+		Log.i(LOGTAG, "Tables has been created");
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class NewObjeto extends Activity {
 	private long comodoId;
 	DataSource source;
 
-	private EditText tvNome;
+	private EditText tvNome, tvCodigo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +23,13 @@ public class NewObjeto extends Activity {
 		source = new DataSource(this);
 		comodoId = getIntent().getExtras().getLong("COMODO_ID");
 		tvNome = (EditText) findViewById(R.id.editTextNomeObjeto);
+		tvCodigo = (EditText) findViewById(R.id.editTextCodigoObjeto);
 	}
 
 	public void salvar(View view) {
 
 		Objeto objeto = new Objeto(tvNome.getText().toString(), "DESLIGADO");
+		objeto.setCodigo(tvCodigo.getText().toString());
 		Comodo c = new Comodo();
 		c.setId(comodoId);
 		objeto.setComodoId(c);

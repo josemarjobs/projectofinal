@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -50,24 +53,39 @@ public class ComodoActivity extends BaseActivity {
 	}
 
 	public void switchEstado(View view) {
-		
-		Switch switch1 = (Switch) view;
-		long id = switch1.getId();
 
-		Objeto o = new Objeto();
-		o.setId(id);
+		Button btn = (Button) view;
 
-		int pos = this.comodo.getObjetos().indexOf(o);
-		o = this.comodo.getObjetos().get(pos);
-		if ("DESLIGADO".equals(o.getEstado())) {
-			o.setEstado("LIGADO");
-		} else {
+		long id = btn.getId();
+
+		// open the datasource
+		source.open();
+		// pega todos os dados do objeto
+		Objeto o = source.findObjeto(id);
+		o.setComodoId(comodo);
+
+		System.out.println("Object in switch: " + o.getId() + ", "
+				+ o.getCodigo());
+
+		sendData(o.getCodigo());
+
+		if ("OFF".equals(btn.getText())) {
 			o.setEstado("DESLIGADO");
+			btn.setText("ON");
+			btn.setBackgroundColor(Color.CYAN);
+			Toast.makeText(this, "DESLIGANDO, Codigo: " + o.getCodigo(), 3000)
+					.show();
+		} else {
+			o.setEstado("LIGADO");
+			btn.setText("OFF");
+			btn.setBackgroundColor(Color.RED);
+			Toast.makeText(this, "LIGANDO, Codigo: " + o.getCodigo(), 3000)
+					.show();
 		}
 
-		source.open();
 		source.alterObjeto(o);
 		source.close();
+
 		System.out
 				.println("POS: " + o.getNome() + ", Estado: " + o.getEstado());
 	}
@@ -113,7 +131,7 @@ public class ComodoActivity extends BaseActivity {
 		private List<Objeto> objetos;
 
 		public ObjetosArrayAdapter(Context context, List<Objeto> objetos) {
-			super(context, R.id.switchObjeto, objetos);
+			super(context, R.id.textNomeObjeto, objetos);
 			this.objetos = objetos;
 		}
 
@@ -121,13 +139,22 @@ public class ComodoActivity extends BaseActivity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View row = inflater
 					.inflate(R.layout.list_row_objeto, parent, false);
-			Switch switch1 = (Switch) row.findViewById(R.id.switchObjeto);
+			TextView tv = (TextView) row.findViewById(R.id.textNomeObjeto);
+
+			Button btn = (Button) row.findViewById(R.id.btnSwitch);
+
 			Objeto o = objetos.get(position);
-			switch1.setText(o.getNome());
-			switch1.setId((int) o.getId());
-			switch1.setActivated(false);
+
+			tv.setText(o.getNome() + " - Cod: " + o.getCodigo());
+
+			btn.setId((int) o.getId());
+
 			if ("LIGADO".equals(o.getEstado())) {
-				switch1.toggle();
+				btn.setText("OFF");
+				btn.setBackgroundColor(Color.RED);
+			} else {
+				btn.setText("ON");
+				btn.setBackgroundColor(Color.CYAN);
 			}
 			return row;
 		}

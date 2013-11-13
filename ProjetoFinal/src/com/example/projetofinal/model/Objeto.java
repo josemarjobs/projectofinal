@@ -3,6 +3,7 @@ package com.example.projetofinal.model;
 public class Objeto {
 
 	private long id;
+	private String codigo;
 	private String nome;
 	private String estado;
 	private Comodo comodo;
@@ -10,13 +11,14 @@ public class Objeto {
 	public Objeto() {
 	}
 
-	public Objeto(long id, String nome, String estado, Comodo comodo) {
-		this(nome, estado);
+	public Objeto(long id, String codigo, String nome, String estado, Comodo comodo) {
+		this( nome, estado);
+		this.codigo = codigo;
 		this.id = id;
 		this.comodo = comodo;
 	}
 
-	public Objeto(String nome, String estado) {
+	public Objeto( String nome, String estado) {
 		this.nome = nome;
 		this.estado = estado;
 	}
@@ -60,6 +62,14 @@ public class Objeto {
 			return this.getId() == oo.getId();
 		}
 		return false;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 }

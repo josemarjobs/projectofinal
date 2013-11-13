@@ -25,7 +25,8 @@ public class DataSource {
 			DBOpenHelper.COLUMN_COMODOS_DESC };
 
 	private static final String[] objetosColumns = {
-			DBOpenHelper.COLUMN_OBJETOS_ID, DBOpenHelper.COLUMN_OBJETOS_NOME,
+			DBOpenHelper.COLUMN_OBJETOS_ID, DBOpenHelper.COLUMN_OBJETOS_CODIGO,
+			DBOpenHelper.COLUMN_OBJETOS_NOME,
 			DBOpenHelper.COLUMN_OBJETOS_ESTADO,
 			DBOpenHelper.COLUMN_OBJETOS_COMODO_ID };
 
@@ -46,6 +47,8 @@ public class DataSource {
 
 	public Objeto createObjeto(Objeto objeto) {
 		ContentValues values = new ContentValues();
+		
+		values.put(DBOpenHelper.COLUMN_OBJETOS_CODIGO, objeto.getCodigo());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_NOME, objeto.getNome());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_ESTADO, objeto.getEstado());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_COMODO_ID, objeto.getComodo()
@@ -86,6 +89,7 @@ public class DataSource {
 
 		ContentValues values = new ContentValues();
 		values.put(DBOpenHelper.COLUMN_OBJETOS_NOME, objeto.getNome());
+		values.put(DBOpenHelper.COLUMN_OBJETOS_CODIGO, objeto.getCodigo());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_ESTADO, objeto.getEstado());
 		values.put(DBOpenHelper.COLUMN_OBJETOS_COMODO_ID, objeto.getComodo()
 				.getId());
@@ -116,6 +120,21 @@ public class DataSource {
 		Cursor cursor = database.query(DBOpenHelper.TABLE_COMODOS,
 				comodosColumns, null, null, null, null, null);
 		return cursorToComodosList(cursor);
+	}
+
+	public Objeto findObjeto(long id) {
+		Objeto objeto = null;
+		String query = "SELECT " + DBOpenHelper.TABLE_OBJETOS + ".* FROM "
+				+ DBOpenHelper.TABLE_OBJETOS + " WHERE "
+				+ DBOpenHelper.COLUMN_OBJETOS_ID + " = " + id;
+
+		Cursor cursor = database.rawQuery(query, null);
+		if (cursor != null) {
+			cursor.moveToFirst();
+			objeto = cursorToObjeto(cursor);
+		}
+
+		return objeto;
 	}
 
 	public Comodo findComodoAndObjetos(long id) {
@@ -157,6 +176,8 @@ public class DataSource {
 		Objeto o = new Objeto();
 		o.setId(cursor.getLong(cursor
 				.getColumnIndex(DBOpenHelper.COLUMN_OBJETOS_ID)));
+		o.setCodigo(cursor.getString(cursor
+				.getColumnIndex(DBOpenHelper.COLUMN_OBJETOS_CODIGO)));
 		o.setNome(cursor.getString(cursor
 				.getColumnIndex(DBOpenHelper.COLUMN_OBJETOS_NOME)));
 		o.setEstado(cursor.getString(cursor
